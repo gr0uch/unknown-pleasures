@@ -36,8 +36,8 @@ do (window) ->
 				val = noise()
 			data.push val
 		data
-	data = initData(rows)
 
+	data = initData(rows)
 
 	#------------------------------
 	# d3
@@ -119,6 +119,7 @@ do (window) ->
 			popup = maxTransform[1]
 		transformPulse.style("-moz-transform","rotateX("+(-popup)+"deg)")
 		transformPulse.style("-webkit-transform","rotateX("+(-popup)+"deg)")
+
 	doTransform([0,0]) # init
 
 	window.onmousedown = (e) ->
