@@ -1,7 +1,7 @@
 (function() {
 
   (function(window) {
-    var AUDIO_FILE, dancer, data, delta, doTransform, getData, gradient, initData, isDrag, k, line, loaded, maxTransform, move, newTransform, noise, origin, pulsar, rows, settings, spectrum, transform, transformObject, transformPulse, x, y, _ref;
+    var AUDIO_FILE, dancer, data, delta, doTransform, getData, gradient, initData, isDrag, k, line, loaded, maxTransform, move, noise, origin, pulsar, rows, settings, spectrum, transform, transformObject, transformPulse, x, y, _ref;
     if (navigator.userAgent.match("MSIE")) d3.select('h1').html("Unsupported");
     rows = 72;
     gradient = [0, 0, 0, 0, 0.16, 0.28, 0.40, 0.66, 1, 1, 0.92, 0.86, 0.92, 1, 1, 0.66, 0.40, 0.28, 0.16, 0, 0, 0, 0];
@@ -24,9 +24,9 @@
       data = [];
       for (r = 0, _ref = gradient.length - 1; 0 <= _ref ? r <= _ref : r >= _ref; 0 <= _ref ? r++ : r--) {
         if (spectrum !== void 0) {
-          step = Math.floor(spectrum.length / gradient.length);
+          step = Math.floor((spectrum.length / gradient.length) / 2);
           if (spectrum[r * step] !== void 0) {
-            val = spectrum[10 + r * step / 2] * 500;
+            val = spectrum[10 + r * step] * 500;
             if (val > 1) val = 1 - Math.random() * 0.4;
             val *= gradient[r];
           } else {
@@ -84,9 +84,8 @@
     window.onresize();
     isDrag = false;
     origin = [];
+    delta = [];
     transform = [0, 0];
-    delta = [0, 0];
-    newTransform = [0, 0];
     maxTransform = [65, 75];
     transformObject = d3.select('#pulsar');
     transformPulse = transformObject.selectAll('svg');
@@ -111,19 +110,19 @@
       if (isDrag) {
         delta[0] = (e.pageX - origin[0]) / 2;
         delta[1] = (e.pageY - origin[1]) / 2;
-        newTransform[0] = transform[0] + delta[0];
-        newTransform[1] = transform[1] + delta[1];
-        newTransform[0] = newTransform[0] > maxTransform[0] ? maxTransform[0] : newTransform[0];
-        newTransform[0] = newTransform[0] < -maxTransform[0] ? -maxTransform[0] : newTransform[0];
-        newTransform[1] = newTransform[1] > 0 ? 0 : newTransform[1];
-        newTransform[1] = newTransform[1] < -maxTransform[1] ? -maxTransform[1] : newTransform[1];
-        doTransform([newTransform[0], newTransform[1]]);
+        origin[0] = e.pageX;
+        origin[1] = e.pageY;
+        transform[0] += delta[0];
+        transform[1] += delta[1];
+        transform[0] = transform[0] > maxTransform[0] ? maxTransform[0] : transform[0];
+        transform[0] = transform[0] < -maxTransform[0] ? -maxTransform[0] : transform[0];
+        transform[1] = transform[1] > 0 ? 0 : transform[1];
+        transform[1] = transform[1] < -maxTransform[1] ? -maxTransform[1] : transform[1];
+        doTransform([transform[0], transform[1]]);
       }
     };
     window.onmouseup = function() {
       isDrag = false;
-      transform[0] = newTransform[0];
-      transform[1] = newTransform[1];
     };
     document.addEventListener('touchstart', function(e) {
       return window.onmousedown(e);

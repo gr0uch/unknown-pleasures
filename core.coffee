@@ -24,9 +24,9 @@ do (window) ->
 		data = []
 		for r in [0..gradient.length-1]
 			if spectrum != undefined
-				step = Math.floor spectrum.length/gradient.length
+				step = Math.floor (spectrum.length/gradient.length)/2
 				if spectrum[r*step] != undefined
-					val = spectrum[10+r*step/2]*500
+					val = spectrum[10+r*step]*500
 					if val > 1
 						val = 1 - Math.random()*0.4
 					val *= gradient[r]
@@ -104,9 +104,8 @@ do (window) ->
 
 	isDrag = false
 	origin = []
+	delta = []
 	transform = [0,0]
-	delta = [0,0]
-	newTransform = [0,0]
 	maxTransform = [65,75]
 
 	transformObject = d3.select('#pulsar')
@@ -132,19 +131,19 @@ do (window) ->
 		if isDrag
 			delta[0] = (e.pageX - origin[0])/2
 			delta[1] = (e.pageY - origin[1])/2
-			newTransform[0] = transform[0]+delta[0]
-			newTransform[1] = transform[1]+delta[1]
-			newTransform[0] = if newTransform[0] > maxTransform[0] then maxTransform[0] else newTransform[0]
-			newTransform[0] = if newTransform[0] < -maxTransform[0] then -maxTransform[0] else newTransform[0]
-			newTransform[1] = if newTransform[1] > 0 then 0 else newTransform[1]
-			newTransform[1] = if newTransform[1] < -maxTransform[1] then -maxTransform[1] else newTransform[1]
-			doTransform([newTransform[0],newTransform[1]])
+			origin[0] = e.pageX
+			origin[1] = e.pageY
+			transform[0] += delta[0]
+			transform[1] += delta[1]
+			transform[0] = if transform[0] > maxTransform[0] then maxTransform[0] else transform[0]
+			transform[0] = if transform[0] < -maxTransform[0] then -maxTransform[0] else transform[0]
+			transform[1] = if transform[1] > 0 then 0 else transform[1]
+			transform[1] = if transform[1] < -maxTransform[1] then -maxTransform[1] else transform[1]
+			doTransform([transform[0],transform[1]])
 		return
 
 	window.onmouseup = () ->
 		isDrag = false
-		transform[0] = newTransform[0]
-		transform[1] = newTransform[1]
 		return
 
 	# preliminary touchscreen support, need to test it
