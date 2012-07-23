@@ -134,7 +134,7 @@
       return window.onmouseup(e);
     });
     AUDIO_FILE = container.attr('data-music');
-    spectrum = {};
+    spectrum = [];
     Dancer.addPlugin('fft', function() {
       return this.bind('update', function() {
         return spectrum = this.getSpectrum();

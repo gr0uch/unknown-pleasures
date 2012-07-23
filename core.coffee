@@ -10,7 +10,7 @@ do (window) ->
 	rows = 72
 	gradient = [0,0,0,0,0.16,0.28,0.40,0.66,1,1,0.92,0.86,0.92,1,1,0.66,0.40,0.28,0.16,0,0,0,0]
 
-	noise = () ->
+	noise = ->
 		Math.random() * 0.07
 
 	initData = (rows) ->
@@ -21,20 +21,18 @@ do (window) ->
 				data[y].push noise()
 		data
 
-	getData = () ->
+	getData = ->
 		data = []
 		for r in [0 .. gradient.length - 1]
 			if spectrum != undefined
 				step = Math.floor (spectrum.length / gradient.length) / 2
 				if spectrum[r * step] != undefined
 					val = spectrum[10 + r * step] * 500
-					if val > 1
-						val = 1 - Math.random() * 0.4
+					if val > 1 then val = 1 - Math.random() * 0.4
 					val *= gradient[r]
 				else
 					val = 0
-			if val <= 0.01
-				val = noise()
+			if val <= 0.01 then val = noise()
 			data.push val
 		data
 
@@ -82,7 +80,7 @@ do (window) ->
 		return
 	, settings.update
 
-	move = () ->
+	move = ->
 		data.shift()
 		data.push getData()
 		for q in [0..data.length-1]
@@ -142,7 +140,7 @@ do (window) ->
 			doTransform([transform[0],transform[1]])
 		return
 
-	window.onmouseup = () ->
+	window.onmouseup = ->
 		isDrag = false
 		return
 
@@ -157,9 +155,9 @@ do (window) ->
 
 	AUDIO_FILE = container.attr('data-music')
 
-	spectrum = {}
-	Dancer.addPlugin 'fft', () ->
-		this.bind 'update', () ->
+	spectrum = []
+	Dancer.addPlugin 'fft', ->
+		this.bind 'update', ->
 			spectrum = this.getSpectrum()
 
 	Dancer.setOptions {
@@ -171,7 +169,7 @@ do (window) ->
 
 	dancer.fft()
 
-	loaded = () ->
+	loaded = ->
 		d3.select('h1').style('display','none')
 		dancer.play()
 
