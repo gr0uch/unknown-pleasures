@@ -1,12 +1,13 @@
 (function() {
 
   (function(window) {
-    var AUDIO_FILE, dancer, data, delta, doTransform, getData, gradient, initData, isDrag, k, line, loaded, maxTransform, move, noise, origin, pulsar, rows, settings, spectrum, transform, transformObject, transformPulse, x, y, _ref;
-    if (navigator.userAgent.match("MSIE")) d3.select('h1').html("Unsupported");
+    var AUDIO_FILE, container, dancer, data, delta, doTransform, getData, gradient, initData, isDrag, k, line, loaded, maxTransform, move, noise, origin, pulsar, pulse, rows, settings, spectrum, transform, x, y, _ref;
+    if (navigator.userAgent.match('MSIE')) d3.select('h1').html('Unsupported');
+    container = d3.select('#pulsar');
     rows = 72;
     gradient = [0, 0, 0, 0, 0.16, 0.28, 0.40, 0.66, 1, 1, 0.92, 0.86, 0.92, 1, 1, 0.66, 0.40, 0.28, 0.16, 0, 0, 0, 0];
     noise = function() {
-      return Math.random() / 15;
+      return Math.random() * 0.07;
     };
     initData = function(rows) {
       var data, x, y, _ref, _ref2;
@@ -46,18 +47,18 @@
       height: 700,
       padding: [5, 5, 5, 5]
     };
-    d3.select('#pulsar').style("width", settings.width + "px").style("height", settings.height + "px");
+    container.style('width', settings.width + 'px').style('height', settings.height + 'px');
     x = d3.scale.linear().domain([0, data[0].length - 1]).range([settings.padding[3], settings.width - settings.padding[1]]);
     y = d3.scale.linear().domain([0, 1]).range([settings.amplitude - settings.padding[2], settings.padding[0]]);
-    line = d3.svg.line().interpolate("cardinal").tension(0.8).x(function(d, i) {
+    line = d3.svg.line().interpolate('cardinal').tension(0.8).x(function(d, i) {
       return x(i);
     }).y(function(d) {
       return y(d);
     });
     pulsar = [];
     for (k = 0, _ref = data.length - 1; 0 <= _ref ? k <= _ref : k >= _ref; 0 <= _ref ? k++ : k--) {
-      pulsar[k] = d3.select('#pulsar').append("svg:svg").attr("width", settings.width).attr("height", settings.amplitude).style("top", (k / (data.length - 1)) * (settings.height - settings.amplitude) + "px").append("svg:g");
-      pulsar[k].selectAll("path").data([data[k]]).enter().append("svg:path").attr("d", (function() {
+      pulsar[k] = container.append('svg:svg').attr('width', settings.width).attr('height', settings.amplitude).style('top', (k / (data.length - 1)) * (settings.height - settings.amplitude) + 'px').append('svg:g');
+      pulsar[k].selectAll('path').data([data[k]]).enter().append('svg:path').attr('d', (function() {
         return line(data[k]);
       })());
     }
@@ -69,7 +70,7 @@
       data.shift();
       data.push(getData());
       for (q = 0, _ref2 = data.length - 1; 0 <= _ref2 ? q <= _ref2 : q >= _ref2; 0 <= _ref2 ? q++ : q--) {
-        pulsar[q].selectAll("path").data([data[q]]).attr("d", (function() {
+        pulsar[q].selectAll('path').data([data[q]]).attr('d', (function() {
           return line(data[q]);
         })());
       }
@@ -78,8 +79,8 @@
       var mid;
       mid = window.innerHeight / 2 - settings.height / 2 - settings.amplitude * 0.2;
       if (mid < 0) mid = 0;
-      d3.select("#pulsar").style("top", mid + "px");
-      return d3.select("h1").style("top", mid + "px");
+      container.style('top', mid + 'px');
+      return d3.select('h1').style('top', mid + 'px');
     };
     window.onresize();
     isDrag = false;
@@ -87,17 +88,16 @@
     delta = [];
     transform = [0, 0];
     maxTransform = [65, 75];
-    transformObject = d3.select('#pulsar');
-    transformPulse = transformObject.selectAll('svg');
+    pulse = container.selectAll('svg');
     doTransform = function(tx) {
       var popup;
-      transformObject.style("-moz-transform", "rotateY(" + tx[0] + "deg) rotateX(" + (-tx[1]) + "deg)");
-      transformObject.style("-webkit-transform", "rotateY(" + tx[0] + "deg) rotateX(" + (-tx[1]) + "deg)");
-      transformObject.style("transform", "rotateY(" + tx[0] + "deg) rotateX(" + (-tx[1]) + "deg)");
+      container.style('-moz-transform', 'rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)');
+      container.style('-webkit-transform', 'rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)');
+      container.style('transform', 'rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)');
       popup = Math.sqrt(tx[0] * tx[0] * 0.2 + tx[1] * tx[1]);
-      if (popup > maxTransform[1]) popup = maxTransform[1];
-      transformPulse.style("-moz-transform", "rotateX(" + (-popup) + "deg)");
-      return transformPulse.style("-webkit-transform", "rotateX(" + (-popup) + "deg)");
+      popup = popup > maxTransform[1] ? maxTransform[1] : popup;
+      pulse.style('-moz-transform', 'rotateX(' + (-popup) + 'deg)');
+      return pulse.style('-webkit-transform', 'rotateX(' + (-popup) + 'deg)');
     };
     doTransform([0, 0]);
     window.onmousedown = function(e) {
@@ -133,10 +133,10 @@
     document.addEventListener('touchend', function(e) {
       return window.onmouseup(e);
     });
-    AUDIO_FILE = d3.select('#pulsar').attr("data-music");
+    AUDIO_FILE = container.attr('data-music');
     spectrum = {};
     Dancer.addPlugin('fft', function() {
-      this.bind('update', function() {
+      return this.bind('update', function() {
         return spectrum = this.getSpectrum();
       });
     });
@@ -151,7 +151,6 @@
       return dancer.play();
     };
     dancer.bind('loaded', loaded);
-    window.data = data;
   })(window);
 
 }).call(this);
