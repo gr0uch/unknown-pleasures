@@ -92,8 +92,8 @@ do (window) ->
 	window.onresize = ->
 		mid = window.innerHeight / 2 - settings.height / 2 - settings.amplitude * 0.2
 		if mid < 0 then mid = 0
-		container.style('top',mid+'px')
-		d3.select('h1').style('top',mid+'px')
+		container.style('top', mid + 'px')
+		d3.select('h1').style('top', mid + 'px')
 
 	window.onresize()
 
@@ -109,13 +109,13 @@ do (window) ->
 
 	pulse = container.selectAll('svg')
 	doTransform = (tx) ->
-		container.style('-moz-transform','rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)')
-		container.style('-webkit-transform','rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)')
-		container.style('transform','rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)')
+		container.style('-moz-transform', 'rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)')
+		container.style('-webkit-transform', 'rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)')
+		container.style('transform', 'rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)')
 		popup = Math.sqrt(tx[0] * tx[0] * 0.2 + tx[1] * tx[1])
 		popup = if popup > maxTransform[1] then maxTransform[1] else popup
-		pulse.style('-moz-transform','rotateX(' + (-popup) + 'deg)')
-		pulse.style('-webkit-transform','rotateX(' + (-popup) + 'deg)')
+		pulse.style('-moz-transform', 'rotateX(' + (-popup) + 'deg)')
+		pulse.style('-webkit-transform', 'rotateX(' + (-popup) + 'deg)')
 
 	doTransform([0,0]) # init
 
@@ -170,7 +170,7 @@ do (window) ->
 	dancer.fft()
 
 	loaded = ->
-		d3.select('h1').style('display','none')
+		d3.select('h1').style('display', 'none')
 		dancer.play()
 
 	dancer.bind 'loaded', loaded
