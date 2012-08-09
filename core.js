@@ -1,11 +1,11 @@
 (function() {
 
   (function(window) {
-    var AUDIO_FILE, container, dancer, data, delta, doTransform, getData, gradient, initData, isDrag, k, line, loaded, maxTransform, move, noise, origin, pulsar, pulse, rows, settings, spectrum, transform, x, y, _ref;
+    var AUDIO_FILE, container, dancer, data, delta, doTransform, getData, gradient, initData, isDrag, k, line, loaded, loadingText, maxTransform, move, noise, origin, pulsar, pulse, rows, settings, spectrum, transform, x, y, _ref;
     if (navigator.userAgent.match('MSIE')) d3.select('h1').html('Unsupported');
     container = d3.select('#pulsar');
     rows = 72;
-    gradient = [0, 0, 0, 0, 0.16, 0.28, 0.40, 0.66, 1, 1, 0.92, 0.86, 0.92, 1, 1, 0.66, 0.40, 0.28, 0.16, 0, 0, 0, 0];
+    gradient = [0, 0, 0, 0, 0.16, 0.28, 0.4, 0.66, 1, 1, 0.92, 0.86, 0.92, 1, 1, 0.66, 0.4, 0.28, 0.16, 0, 0, 0, 0];
     noise = function() {
       return Math.random() * 0.07;
     };
@@ -148,9 +148,15 @@
     dancer.fft();
     loaded = function() {
       d3.select('h1').style('display', 'none');
+      clearInterval(loadingText);
       return dancer.play();
     };
     dancer.bind('loaded', loaded);
+    loadingText = setInterval(function() {
+      var percent;
+      percent = Math.floor(dancer.getProgress() * 100) + "%";
+      if (percent !== "0%") return d3.select('h1')[0][0].innerHTML = percent;
+    }, 100);
   })(window);
 
 }).call(this);

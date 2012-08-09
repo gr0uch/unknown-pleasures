@@ -170,8 +170,15 @@ do (window) ->
 
 	loaded = ->
 		d3.select('h1').style('display', 'none')
+		clearInterval loadingText
 		dancer.play()
 
 	dancer.bind 'loaded', loaded
+
+	loadingText = setInterval ->
+		percent = Math.floor( dancer.getProgress() * 100 ) + "%"
+		if percent != "0%"
+			d3.select('h1')[0][0].innerHTML = percent
+	, 100
 
 	return
