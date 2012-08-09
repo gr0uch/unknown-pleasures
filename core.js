@@ -86,7 +86,7 @@
     isDrag = false;
     origin = [];
     delta = [];
-    transform = [0, 0];
+    transform = [30, -50];
     maxTransform = [65, 75];
     pulse = container.selectAll('svg');
     doTransform = function(tx) {
@@ -99,7 +99,7 @@
       pulse.style('-moz-transform', 'rotateX(' + (-popup) + 'deg)');
       return pulse.style('-webkit-transform', 'rotateX(' + (-popup) + 'deg)');
     };
-    doTransform([0, 0]);
+    doTransform(transform);
     window.onmousedown = function(e) {
       isDrag = true;
       origin[0] = e.pageX;

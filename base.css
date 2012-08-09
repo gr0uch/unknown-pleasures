@@ -9,13 +9,12 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-html,
-body {
+html, body {
   overflow: hidden;
   height: 100%;
 }
 body {
-  background: #000;
+  background: #111111 url("lib/noise.jpg") center repeat;
   color: #fff;
   text-align: center;
   font-family: Georgia,serif;
@@ -59,6 +58,6 @@ svg {
 }
 path {
   stroke: #fff;
-  stroke-width: 2px;
-  fill: #000;
+  stroke-width: 0.07em;
+  fill: #111;
 }

@@ -103,7 +103,7 @@ do (window) ->
 	isDrag = false
 	origin = []
 	delta = []
-	transform = [0, 0]
+	transform = [30, -50]
 	maxTransform = [65, 75]
 
 	pulse = container.selectAll('svg')
@@ -116,7 +116,7 @@ do (window) ->
 		pulse.style('-moz-transform', 'rotateX(' + (-popup) + 'deg)')
 		pulse.style('-webkit-transform', 'rotateX(' + (-popup) + 'deg)')
 
-	doTransform([0,0]) # init
+	doTransform(transform) # init
 
 	window.onmousedown = (e) ->
 		isDrag = true
