@@ -86,7 +86,7 @@
     isDrag = false;
     origin = [];
     delta = [];
-    transform = [30, -50];
+    transform = [0, 0];
     maxTransform = [65, 75];
     pulse = container.selectAll('svg');
     doTransform = function(tx) {
@@ -144,7 +144,11 @@
       flashJS: './lib/soundmanager2.js',
       flashSWF: './lib/soundmanager2.swf'
     });
-    dancer = new Dancer(AUDIO_FILE, ['ogg', 'mp3']);
+    dancer = new Dancer();
+    dancer.load({
+      src: AUDIO_FILE,
+      codecs: ['ogg', 'mp3']
+    });
     dancer.fft();
     loaded = function() {
       d3.select('h1').style('display', 'none');
@@ -155,7 +159,9 @@
     loadingText = setInterval(function() {
       var percent;
       percent = Math.floor(dancer.getProgress() * 100) + "%";
-      if (percent !== "0%") return d3.select('h1')[0][0].innerHTML = percent;
+      if (dancer.getProgress() !== void 0 && dancer.getProgress !== 0) {
+        return d3.select('h1')[0][0].innerHTML = percent;
+      }
     }, 100);
   })(window);
 

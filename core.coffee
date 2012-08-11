@@ -103,7 +103,7 @@ do (window) ->
 	isDrag = false
 	origin = []
 	delta = []
-	transform = [30, -50]
+	transform = [0, 0]
 	maxTransform = [65, 75]
 
 	pulse = container.selectAll('svg')
@@ -164,7 +164,8 @@ do (window) ->
 		flashSWF : './lib/soundmanager2.swf'
 	}
 
-	dancer = new Dancer(AUDIO_FILE, ['ogg', 'mp3'])
+	dancer = new Dancer()
+	dancer.load({ src: AUDIO_FILE, codecs: ['ogg', 'mp3'] })
 
 	dancer.fft()
 
@@ -177,7 +178,7 @@ do (window) ->
 
 	loadingText = setInterval ->
 		percent = Math.floor( dancer.getProgress() * 100 ) + "%"
-		if percent != "0%"
+		if dancer.getProgress() != undefined and dancer.getProgress != 0
 			d3.select('h1')[0][0].innerHTML = percent
 	, 100
 
