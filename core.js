@@ -1,7 +1,7 @@
 (function() {
 
   (function(window) {
-    var AUDIO_FILE, container, dancer, data, delta, doTransform, getData, gradient, initData, isDrag, k, line, loaded, loadingText, maxTransform, move, noise, origin, pulsar, pulse, rows, settings, spectrum, transform, x, y, _ref, _this;
+    var AUDIO_FILE, container, dancer, data, delta, doTransform, getData, gradient, initData, isDrag, k, line, loaded, loadingText, maxTransform, move, noise, origin, pulsar, pulse, rows, settings, spectrum, transform, x, y, _ref;
     if (navigator.userAgent.match('MSIE')) d3.select('h1').html('Unsupported');
     container = d3.select('#pulsar');
     rows = 76;
@@ -83,7 +83,6 @@
       return d3.select('h1').style('top', mid + 'px');
     };
     window.onresize();
-    _this = this;
     isDrag = false;
     origin = [];
     delta = [];
