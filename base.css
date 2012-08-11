@@ -14,7 +14,7 @@ html, body {
   height: 100%;
 }
 body {
-  background: #111111 url("lib/noise.jpg") center repeat;
+  background: #0f0f0f url("lib/noise.jpg") center repeat;
   color: #fff;
   text-align: center;
   font-family: Georgia,serif;
@@ -58,6 +58,6 @@ svg {
 }
 path {
   stroke: #fff;
-  stroke-width: 0.07em;
-  fill: #111;
+  stroke-width: 0.06em;
+  fill: #0f0f0f;
 }

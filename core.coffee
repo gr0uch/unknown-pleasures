@@ -7,7 +7,7 @@ do (window) ->
 		d3.select('h1').html 'Unsupported'
 
 	container = d3.select('#pulsar')
-	rows = 72
+	rows = 76
 	gradient = [0, 0, 0, 0, 0.16, 0.28, 0.4, 0.66, 1, 1, 0.92, 0.86, 0.92, 1, 1, 0.66, 0.4, 0.28, 0.16, 0, 0, 0, 0]
 
 	noise = -> Math.random() * 0.07
