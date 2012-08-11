@@ -1,7 +1,7 @@
 (function() {
 
   (function(window) {
-    var AUDIO_FILE, container, dancer, data, delta, doTransform, getData, gradient, initData, isDrag, k, line, loaded, loadingText, maxTransform, move, noise, origin, pulsar, pulse, rows, settings, spectrum, transform, x, y, _ref;
+    var AUDIO_FILE, container, dancer, data, delta, doTransform, getData, gradient, initData, isDrag, k, line, loaded, loadingText, maxTransform, move, noise, origin, pulsar, pulse, rows, settings, spectrum, transform, x, y, _ref, _this;
     if (navigator.userAgent.match('MSIE')) d3.select('h1').html('Unsupported');
     container = d3.select('#pulsar');
     rows = 76;
@@ -83,6 +83,7 @@
       return d3.select('h1').style('top', mid + 'px');
     };
     window.onresize();
+    _this = this;
     isDrag = false;
     origin = [];
     delta = [];
@@ -100,13 +101,13 @@
       return pulse.style('-webkit-transform', 'rotateX(' + (-popup) + 'deg)');
     };
     doTransform(transform);
-    window.onmousedown = function(e) {
+    window.onmousedown = window.touchstart = function(e) {
       isDrag = true;
       origin[0] = e.pageX;
       origin[1] = e.pageY;
       return false;
     };
-    window.onmousemove = function(e) {
+    window.onmousemove = window.touchmove = function(e) {
       if (isDrag) {
         delta[0] = (e.pageX - origin[0]) / 2;
         delta[1] = (e.pageY - origin[1]) / 2;
@@ -121,18 +122,9 @@
         doTransform([transform[0], transform[1]]);
       }
     };
-    window.onmouseup = function() {
+    window.onmouseup = window.touchend = function() {
       isDrag = false;
     };
-    document.addEventListener('touchstart', function(e) {
-      return window.onmousedown(e);
-    });
-    document.addEventListener('touchmove', function(e) {
-      return window.onmousemove(e);
-    });
-    document.addEventListener('touchend', function(e) {
-      return window.onmouseup(e);
-    });
     AUDIO_FILE = container.attr('data-music');
     spectrum = [];
     Dancer.addPlugin('fft', function() {
@@ -160,7 +152,7 @@
       var percent;
       percent = Math.floor(dancer.getProgress() * 100) + "%";
       if (dancer.getProgress() !== void 0 && dancer.getProgress !== 0) {
-        return d3.select('h1')[0][0].innerHTML = percent;
+        return d3.select('h1').html = percent;
       }
     }, 100);
   })(window);

@@ -118,13 +118,13 @@ do (window) ->
 
 	doTransform(transform) # init
 
-	window.onmousedown = (e) ->
+	window.onmousedown = window.touchstart = (e) ->
 		isDrag = true
 		origin[0] = e.pageX
 		origin[1] = e.pageY
 		false
 
-	window.onmousemove = (e) ->
+	window.onmousemove = window.touchmove = (e) ->
 		if isDrag
 			delta[0] = (e.pageX - origin[0]) / 2
 			delta[1] = (e.pageY - origin[1]) / 2
@@ -139,14 +139,9 @@ do (window) ->
 			doTransform([transform[0],transform[1]])
 		return
 
-	window.onmouseup = ->
+	window.onmouseup = window.touchend = ->
 		isDrag = false
 		return
-
-	# preliminary touchscreen support, need to test it
-	document.addEventListener 'touchstart', (e) -> window.onmousedown(e)
-	document.addEventListener 'touchmove', (e) -> window.onmousemove(e)
-	document.addEventListener 'touchend', (e) -> window.onmouseup(e)
 
 	#------------------------------
 	# dancer.js
@@ -179,7 +174,7 @@ do (window) ->
 	loadingText = setInterval ->
 		percent = Math.floor( dancer.getProgress() * 100 ) + "%"
 		if dancer.getProgress() != undefined and dancer.getProgress != 0
-			d3.select('h1')[0][0].innerHTML = percent
+			d3.select('h1').html = percent
 	, 100
 
 	return
