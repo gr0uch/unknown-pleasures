@@ -32,7 +32,7 @@ do ( window ) ->
 					val *= GRADIENT[ r ]
 				else
 					val = 0
-			if val <= 0.01 then val = noise()
+			if val < 0.01 then val = noise()
 			data.push val
 		data
 
@@ -138,7 +138,7 @@ do ( window ) ->
 			transform[ 0 ] = if transform[ 0 ] < -maxTransform[ 0 ] then -maxTransform[ 0 ] else transform[ 0 ]
 			transform[ 1 ] = if transform[ 1 ] > 0 then 0 else transform[ 1 ]
 			transform[ 1 ] = if transform[ 1 ] < -maxTransform[ 1 ] then -maxTransform[ 1 ] else transform[ 1 ]
-			doTransform( [transform[ 0 ], transform[ 1 ]] )
+			doTransform( [ transform[ 0 ], transform[ 1 ] ] )
 		return
 
 	window.onmouseup = window.touchend = ->

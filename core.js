@@ -34,7 +34,7 @@
             val = 0;
           }
         }
-        if (val <= 0.01) val = noise();
+        if (val < 0.01) val = noise();
         data.push(val);
       }
       return data;
