@@ -150,7 +150,7 @@
     loadingText = setInterval(function() {
       var percent;
       percent = Math.floor(dancer.getProgress() * 100) + "%";
-      if (dancer.getProgress() !== void 0 && dancer.getProgress !== 0) {
+      if (dancer.getProgress() !== void 0 && dancer.getProgress() !== 0) {
         return d3.select('h1').html = percent;
       }
     }, 100);

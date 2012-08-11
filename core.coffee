@@ -173,7 +173,7 @@ do (window) ->
 
 	loadingText = setInterval ->
 		percent = Math.floor( dancer.getProgress() * 100 ) + "%"
-		if dancer.getProgress() != undefined and dancer.getProgress != 0
+		if dancer.getProgress() != undefined and dancer.getProgress() != 0
 			d3.select('h1').html = percent
 	, 100
 
