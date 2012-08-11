@@ -1,20 +1,20 @@
 (function() {
 
   (function(window) {
-    var AUDIO_FILE, container, dancer, data, delta, doTransform, getData, gradient, initData, isDrag, k, line, loaded, loadingText, maxTransform, move, noise, origin, pulsar, pulse, rows, settings, spectrum, transform, x, y, _ref;
+    var AUDIO_FILE, GRADIENT, ROWS, container, dancer, data, delta, doTransform, getData, initData, isDrag, k, line, loaded, loadingText, maxTransform, move, noise, origin, pulsar, pulse, settings, spectrum, transform, x, y, _ref;
     if (navigator.userAgent.match('MSIE')) d3.select('h1').html('Unsupported');
     container = d3.select('#pulsar');
-    rows = 76;
-    gradient = [0, 0, 0, 0, 0.16, 0.28, 0.4, 0.66, 1, 1, 0.92, 0.86, 0.92, 1, 1, 0.66, 0.4, 0.28, 0.16, 0, 0, 0, 0];
+    ROWS = 76;
+    GRADIENT = [0, 0, 0, 0, 0.16, 0.28, 0.4, 0.66, 1, 1, 0.92, 0.86, 0.92, 1, 1, 0.66, 0.4, 0.28, 0.16, 0, 0, 0, 0];
     noise = function() {
-      return Math.random() * 0.07;
+      return Math.random() * 0.06;
     };
-    initData = function(rows) {
+    initData = function(ROWS) {
       var data, x, y, _ref, _ref2;
       data = [];
-      for (y = 0, _ref = rows - 1; 0 <= _ref ? y <= _ref : y >= _ref; 0 <= _ref ? y++ : y--) {
+      for (y = 0, _ref = ROWS - 1; 0 <= _ref ? y <= _ref : y >= _ref; 0 <= _ref ? y++ : y--) {
         data.push([]);
-        for (x = 0, _ref2 = gradient.length - 1; 0 <= _ref2 ? x <= _ref2 : x >= _ref2; 0 <= _ref2 ? x++ : x--) {
+        for (x = 0, _ref2 = GRADIENT.length - 1; 0 <= _ref2 ? x <= _ref2 : x >= _ref2; 0 <= _ref2 ? x++ : x--) {
           data[y].push(noise());
         }
       }
@@ -23,13 +23,13 @@
     getData = function() {
       var data, r, step, val, _ref;
       data = [];
-      for (r = 0, _ref = gradient.length - 1; 0 <= _ref ? r <= _ref : r >= _ref; 0 <= _ref ? r++ : r--) {
+      for (r = 0, _ref = GRADIENT.length - 1; 0 <= _ref ? r <= _ref : r >= _ref; 0 <= _ref ? r++ : r--) {
         if (spectrum !== void 0) {
-          step = Math.floor((spectrum.length / gradient.length) / 2);
+          step = Math.floor((spectrum.length / GRADIENT.length) / 2);
           if (spectrum[r * step] !== void 0) {
             val = spectrum[10 + r * step] * 500;
             if (val > 1) val = 1 - Math.random() * 0.4;
-            val *= gradient[r];
+            val *= GRADIENT[r];
           } else {
             val = 0;
           }
@@ -39,7 +39,7 @@
       }
       return data;
     };
-    data = initData(rows);
+    data = initData(ROWS);
     settings = {
       amplitude: 50,
       update: 80,
@@ -91,20 +91,20 @@
     pulse = container.selectAll('svg');
     doTransform = function(tx) {
       var popup;
-      container.style('-moz-transform', 'rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)');
-      container.style('-webkit-transform', 'rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)');
-      container.style('transform', 'rotateY(' + tx[0] + 'deg) rotateX(' + (-tx[1]) + 'deg)');
+      container.style('-moz-transform', 'rotateY( ' + tx[0] + 'deg) rotateX( ' + -tx[1] + 'deg)');
+      container.style('-webkit-transform', 'rotateY( ' + tx[0] + 'deg) rotateX( ' + -tx[1] + 'deg)');
+      container.style('transform', 'rotateY( ' + tx[0] + 'deg) rotateX( ' + -tx[1] + 'deg)');
       popup = Math.sqrt(tx[0] * tx[0] * 0.2 + tx[1] * tx[1]);
       popup = popup > maxTransform[1] ? maxTransform[1] : popup;
-      pulse.style('-moz-transform', 'rotateX(' + (-popup) + 'deg)');
-      return pulse.style('-webkit-transform', 'rotateX(' + (-popup) + 'deg)');
+      pulse.style('-moz-transform', 'rotateX( ' + -popup + 'deg)');
+      pulse.style('-webkit-transform', 'rotateX( ' + -popup + 'deg)');
+      return pulse.style('transform', 'rotateX( ' + -popup + 'deg)');
     };
     doTransform(transform);
     window.onmousedown = window.touchstart = function(e) {
       isDrag = true;
       origin[0] = e.pageX;
       origin[1] = e.pageY;
-      return false;
     };
     window.onmousemove = window.touchmove = function(e) {
       if (isDrag) {
