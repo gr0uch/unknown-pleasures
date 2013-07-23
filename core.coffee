@@ -40,13 +40,12 @@ data = initData( ROWS )
 # d3
 #------------------------------
 
-settings = {
-	amplitude: 50,
-	update: 80,
-	width: 600,
-	height: 700,
+settings =
+	amplitude: 50
+	update: 80
+	width: 600
+	height: 700
 	padding: [ 5, 5, 5, 5 ]
-}
 
 container
 	.style( 'width', settings.width + 'px' )
